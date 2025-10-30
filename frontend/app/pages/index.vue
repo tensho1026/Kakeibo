@@ -1,3 +1,3 @@
 <template>
-  <NuxtPage />
+  <h1>snohwg</h1>
 </template>
