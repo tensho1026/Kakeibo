@@ -1,3 +1,3 @@
 <template>
-  <h1>snohwg</h1>
+  <h1 class="text-red-900">snohwg</h1>
 </template>
