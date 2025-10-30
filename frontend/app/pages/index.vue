@@ -1,3 +1,3 @@
 <template>
-  <h1 class="text-red-900">snohwg</h1>
+  <div class="font-black text-center text-3xl text-red-400">Nuxt Tailwind</div>
 </template>
