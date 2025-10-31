@@ -31,6 +31,6 @@ export class AuthService {
       { expiresIn: '7d' },
     );
 
-    return { token, user };
+    return token;
   }
 }
