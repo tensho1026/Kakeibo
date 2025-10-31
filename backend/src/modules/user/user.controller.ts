@@ -12,6 +12,7 @@ export class UserController {
 
   @Post()
   create(@Body() body: { name: string; email: string; password: string }) {
-    return this.userService.create(body);
+    console.log('Controller reachedっっっっっっっっっっっd', body);
+    return this.userService.register(body);
   }
 }
