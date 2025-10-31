@@ -7,7 +7,7 @@
           <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">家計簿ダッシュボード</h1>
           <p class="mt-2 text-sm text-slate-500">収支状況と予算の進捗をひと目で確認できます。</p>
         </div>
-        <div class="flex gap-3">
+        <div class="flex flex-wrap gap-3">
           <NuxtLink
             to="/add"
             class="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-500"
@@ -20,6 +20,18 @@
           >
             レポート出力
           </button>
+          <NuxtLink
+            to="/login"
+            class="inline-flex items-center justify-center rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            ログイン
+          </NuxtLink>
+          <NuxtLink
+            to="/register"
+            class="inline-flex items-center justify-center rounded-xl border border-indigo-200 bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-600 transition hover:bg-indigo-100"
+          >
+            新規登録
+          </NuxtLink>
         </div>
       </header>
 
