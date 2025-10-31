@@ -3,7 +3,20 @@ import { reactive } from "vue";
 const form = reactive({ name: "", email: "", password: "" });
 
 const handleSubmit = async () => {
-  console.log("送信しました");
+  const res = await fetch("http://localhost:3001/users", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: form.name,
+      email: form.email,
+      password: form.password,
+    }),
+  });
+
+  const data = await res.json();
+  console.log(data, "を送信しました");
 };
 </script>
 
