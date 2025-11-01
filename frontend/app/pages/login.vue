@@ -13,9 +13,9 @@ const handleSubmit = async () => {
     }),
   });
   if (res) {
-    const data = await res.json();
-    localStorage.setItem("token", data.token);
-    console.log(data.token, "トークンですよーーーー");
+    const data = await res.text();
+    localStorage.setItem("token", data);
+    console.log(data, "トークンですよーーーー");
 
     router.push("/");
   }
