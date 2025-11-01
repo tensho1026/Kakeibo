@@ -13,7 +13,7 @@ onMounted(() => {
       });
       if (res.ok) {
         const data = await res.json();
-        console.log(data);
+        console.log(data, "/me叩いて返ってきてるか＝＝＝＝＝");
       }
     } catch (err) {
       console.error("通信エラー:", err);
