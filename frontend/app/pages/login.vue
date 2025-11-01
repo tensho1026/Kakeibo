@@ -1,16 +1,48 @@
+<script setup lang="ts">
+const form = reactive({ email: "", password: "" });
+const router = useRouter();
+const handleSubmit = async () => {
+  const res = await fetch("http://localhost:3001/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: form.email,
+      password: form.password,
+    }),
+  });
+  if (res) {
+    const data = await res.json();
+    localStorage.setItem("token", data.token);
+    console.log(data.token, "トークンですよーーーー");
+
+    router.push("/");
+  }
+};
+</script>
 <template>
   <div class="min-h-screen bg-slate-100">
-    <div class="mx-auto flex min-h-screen w-full max-w-4xl flex-col items-center justify-center px-6 py-12">
-      <div class="w-full max-w-md rounded-3xl bg-white px-8 py-10 shadow-lg shadow-indigo-100">
+    <div
+      class="mx-auto flex min-h-screen w-full max-w-4xl flex-col items-center justify-center px-6 py-12"
+    >
+      <div
+        class="w-full max-w-md rounded-3xl bg-white px-8 py-10 shadow-lg shadow-indigo-100"
+      >
         <header class="space-y-2">
-          <NuxtLink to="/" class="text-xs font-semibold uppercase tracking-wide text-indigo-500 hover:text-indigo-600">
+          <NuxtLink
+            to="/"
+            class="text-xs font-semibold uppercase tracking-wide text-indigo-500 hover:text-indigo-600"
+          >
             家計簿アプリ
           </NuxtLink>
           <h1 class="text-2xl font-bold text-slate-900">ログイン</h1>
-          <p class="text-sm text-slate-500">メールアドレスとパスワードを入力して、ダッシュボードにアクセスしましょう。</p>
+          <p class="text-sm text-slate-500">
+            メールアドレスとパスワードを入力して、ダッシュボードにアクセスしましょう。
+          </p>
         </header>
 
-        <form class="mt-8 space-y-6" @submit.prevent>
+        <form class="mt-8 space-y-6" @submit.prevent="handleSubmit">
           <label class="flex flex-col gap-2 text-sm font-medium text-slate-700">
             メールアドレス
             <input
@@ -18,6 +50,7 @@
               placeholder="taro@example.com"
               class="rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
               required
+              v-model="form.email"
             />
           </label>
 
@@ -28,6 +61,7 @@
               placeholder="パスワード"
               class="rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"
               required
+              v-model="form.password"
             />
           </label>
 
@@ -39,7 +73,12 @@
               />
               ログイン情報を記憶する
             </label>
-            <button type="button" class="font-semibold text-indigo-600 hover:text-indigo-500">パスワードをお忘れですか？</button>
+            <button
+              type="button"
+              class="font-semibold text-indigo-600 hover:text-indigo-500"
+            >
+              パスワードをお忘れですか？
+            </button>
           </div>
 
           <button
@@ -67,7 +106,11 @@
 
         <p class="mt-6 text-xs text-slate-500">
           初めての方ですか？
-          <NuxtLink to="/register" class="font-semibold text-indigo-600 hover:text-indigo-500">アカウントを作成</NuxtLink>
+          <NuxtLink
+            to="/register"
+            class="font-semibold text-indigo-600 hover:text-indigo-500"
+            >アカウントを作成</NuxtLink
+          >
         </p>
       </div>
     </div>
