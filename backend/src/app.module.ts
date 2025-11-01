@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { UserModule } from './modules/user/user.module';
 import { Test } from './entities/test.entity';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   controllers: [AppController],
@@ -19,6 +20,7 @@ import { Test } from './entities/test.entity';
       synchronize: true, // 開発中のみ
     }),
     UserModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
