@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { reactive } from "vue";
 const form = reactive({ name: "", email: "", password: "" });
+const router = useRouter()
 
 const handleSubmit = async () => {
   const res = await fetch("http://localhost:3001/users", {
@@ -17,6 +18,7 @@ const handleSubmit = async () => {
 
   const data = await res.json();
   console.log(data, "を送信しました");
+  router.push('/')
 };
 </script>
 
