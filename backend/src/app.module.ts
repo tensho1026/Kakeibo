@@ -5,6 +5,7 @@ import { User } from './entities/user.entity';
 import { UserModule } from './modules/user/user.module';
 import { Test } from './entities/test.entity';
 import { AuthModule } from './modules/auth/auth.module';
+import { MeModule } from './modules/me/me.module';
 
 @Module({
   controllers: [AppController],
@@ -21,6 +22,7 @@ import { AuthModule } from './modules/auth/auth.module';
     }),
     UserModule,
     AuthModule,
+    MeModule,
   ],
 })
 export class AppModule {}
