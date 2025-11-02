@@ -18,6 +18,7 @@ export class TransactionController {
 
   @Post('transaction')
   createLegacy(@Body() data: Type) {
+    console.log('できてるけ');
     return this.transactionService.saveTransaction(data);
   }
 

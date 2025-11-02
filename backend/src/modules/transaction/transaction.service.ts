@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, Repository } from 'typeorm';
-
 import { Transaction, TransactionType } from 'src/entities/transaction.entity';
 import { Category } from 'src/entities/category.entity';
 import { User } from 'src/entities/user.entity';
@@ -10,10 +9,10 @@ import { User } from 'src/entities/user.entity';
 export class TransactionService {
   constructor(
     @InjectRepository(Transaction)
-    private readonly transactionRepository: Repository<Transaction>, // ← Repositoryを注入
+    private readonly transactionRepository: Repository<Transaction>,
 
     @InjectRepository(Category)
-    private readonly categoryRepository: Repository<Category>, // ← Repositoryを注入
+    private readonly categoryRepository: Repository<Category>,
   ) {}
 
   async saveTransaction(data: {
@@ -27,11 +26,11 @@ export class TransactionService {
     memo?: string;
   }) {
     let categoryId = data.categoryId;
+
+    // カテゴリ名が渡されている場合、既存検索 or 新規作成
     if (!categoryId && data.category) {
       const foundCategory = await this.categoryRepository.findOne({
-        where: {
-          name: data.category,
-        },
+        where: { name: data.category },
       });
 
       if (foundCategory) {
@@ -46,19 +45,31 @@ export class TransactionService {
                 : TransactionType.EXPENSE,
           }),
         );
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         categoryId = newCategory.id;
       }
-      const saveData = this.transactionRepository.create({
-        type: data.type,
-        date: data.date,
-        amount: data.amount,
-        paymentMethod: data.paymentMethod,
-        memo: data.memo,
-        category: { id: categoryId } as Category,
-        user: { id: data.userId } as User,
-      } as DeepPartial<Transaction>);
-      return this.transactionRepository.save(saveData);
     }
+
+    // categoryIdが最終的に確定していない場合はエラー
+    if (!categoryId) {
+      throw new Error('カテゴリが見つかりません');
+    }
+
+    // Transactionを作成して保存
+    const saveData = this.transactionRepository.create({
+      type:
+        data.type === 'income'
+          ? TransactionType.INCOME
+          : TransactionType.EXPENSE,
+      date: data.date,
+      amount: data.amount,
+      paymentMethod: data.paymentMethod,
+      memo: data.memo,
+      category: { id: categoryId } as Category,
+      user: { id: data.userId } as User,
+    } as DeepPartial<Transaction>);
+
+    console.log('💾 Saving transaction:', saveData);
+
+    return await this.transactionRepository.save(saveData);
   }
 }

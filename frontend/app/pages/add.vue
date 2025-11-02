@@ -55,7 +55,7 @@ console.log(user.value, "user情報");
 
 const handleSubmit = async () => {
   try {
-    const response = await fetch("http://localhost:3001/transactions", {
+    const response = await fetch("http://localhost:3001/transaction", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
