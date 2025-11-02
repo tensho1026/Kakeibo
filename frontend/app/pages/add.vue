@@ -33,9 +33,9 @@ const categoryMap = {
 
 const paymentMethods = [
   { value: "cash", label: "現金", icon: "💴" },
-  { value: "card", label: "カード", icon: "💳" },
-  { value: "bank", label: "口座振替", icon: "🏦" },
-] as const;
+  { value: "credit_card", label: "カード", icon: "💳" },
+  { value: "bank_transfer", label: "口座振替", icon: "🏦" },
+];
 
 const form = reactive({
   type: "expense",

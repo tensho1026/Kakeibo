@@ -16,24 +16,45 @@ export class TransactionService {
     private readonly categoryRepository: Repository<Category>, // ← Repositoryを注入
   ) {}
 
-  saveTransaction(data: {
+  async saveTransaction(data: {
     userId: number;
     type: 'income' | 'expense';
     date: Date;
     amount: number;
-    categoryId: number;
+    category?: string;
+    categoryId?: number;
     paymentMethod?: string;
     memo?: string;
   }) {
-    const saveData = this.transactionRepository.create({
-      type: data.type,
-      date: data.date,
-      amount: data.amount,
-      paymentMethod: data.paymentMethod,
-      memo: data.memo,
-      category: { id: data.categoryId } as Category,
-      user: { id: data.userId } as User,
-    } as DeepPartial<Transaction>);
-    return this.transactionRepository.save(saveData);
+    let categoryId = data.categoryId;
+    if (!categoryId && data.category) {
+      const foundCategory = await this.categoryRepository.findOne({
+        where: {
+          name: data.category,
+        },
+      });
+
+      if (foundCategory) {
+        categoryId = foundCategory.id;
+      } else {
+        const newCategory = await this.categoryRepository.save(
+          this.categoryRepository.create({
+            name: data.category,
+            type: data.type,
+          }),
+        );
+        categoryId = newCategory.id;
+      }
+      const saveData = this.transactionRepository.create({
+        type: data.type,
+        date: data.date,
+        amount: data.amount,
+        paymentMethod: data.paymentMethod,
+        memo: data.memo,
+        category: { id: categoryId } as Category,
+        user: { id: data.userId } as User,
+      } as DeepPartial<Transaction>);
+      return this.transactionRepository.save(saveData);
+    }
   }
 }
