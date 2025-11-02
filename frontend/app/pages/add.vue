@@ -51,24 +51,25 @@ const availableCategories = computed(
 );
 
 const user = useUser();
-console.log(user,'user情報');
+console.log(user.value, "user情報");
 
 const handleSubmit = async () => {
-  const res = await fetch("http://localhost:3001/saveTransaction", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      type: form.type,
-      date: form.date,
-      amount: form.amount,
-      category: form.category,
-      paymentMethod: form.method,
-      memo: form.memo,
-      userId: 1,
-    }),
-  });
+  // const res = await fetch("http://localhost:3001/saveTransaction", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify({
+  //     type: form.type,
+  //     date: form.date,
+  //     amount: form.amount,
+  //     category: form.category,
+  //     paymentMethod: form.method,
+  //     memo: form.memo,
+  //     userId: user.value?.id,
+  //   }),
+  // });
+  console.log(form, "送信データ");
 };
 </script>
 <template>
@@ -89,7 +90,11 @@ const handleSubmit = async () => {
         </div>
       </header>
 
-      <form id="transaction-form" @submit.prevent class="mt-8 space-y-8">
+      <form
+        id="transaction-form"
+        @submit.prevent="handleSubmit"
+        class="mt-8 space-y-8"
+      >
         <section class="rounded-2xl bg-white p-6 shadow-sm">
           <div>
             <h2 class="text-lg font-semibold text-slate-900">基本情報</h2>
