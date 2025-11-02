@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, Repository } from 'typeorm';
 
-import { Transaction } from 'src/entities/transaction.entity';
+import { Transaction, TransactionType } from 'src/entities/transaction.entity';
 import { Category } from 'src/entities/category.entity';
 import { User } from 'src/entities/user.entity';
 
@@ -40,9 +40,13 @@ export class TransactionService {
         const newCategory = await this.categoryRepository.save(
           this.categoryRepository.create({
             name: data.category,
-            type: data.type,
+            type:
+              data.type === 'income'
+                ? TransactionType.INCOME
+                : TransactionType.EXPENSE,
           }),
         );
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         categoryId = newCategory.id;
       }
       const saveData = this.transactionRepository.create({
