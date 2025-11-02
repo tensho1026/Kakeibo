@@ -54,21 +54,21 @@ const user = useUser();
 console.log(user.value, "user情報");
 
 const handleSubmit = async () => {
-  // const res = await fetch("http://localhost:3001/saveTransaction", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify({
-  //     type: form.type,
-  //     date: form.date,
-  //     amount: form.amount,
-  //     category: form.category,
-  //     paymentMethod: form.method,
-  //     memo: form.memo,
-  //     userId: user.value?.id,
-  //   }),
-  // });
+  const res = await fetch("http://localhost:3001/transaction", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      type: form.type,
+      date: form.date,
+      amount: form.amount,
+      category: form.category,
+      paymentMethod: form.method,
+      memo: form.memo,
+      userId: user.value?.id,
+    }),
+  });
   console.log(form, "送信データ");
 };
 </script>
