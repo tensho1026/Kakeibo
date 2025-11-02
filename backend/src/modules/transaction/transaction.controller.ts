@@ -12,12 +12,22 @@ type Type = {
   memo?: string;
   userId: number;
 };
-@Controller('transaction')
+@Controller()
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
-  @Post()
-  create(@Body() data: Type) {
+
+  private persistTransaction(data: Type) {
     console.log('das');
     return this.transactionService.saveTransaction(data);
+  }
+
+  @Post('transaction')
+  createLegacy(@Body() data: Type) {
+    return this.persistTransaction(data);
+  }
+
+  @Post('transactions')
+  create(@Body() data: Type) {
+    return this.persistTransaction(data);
   }
 }

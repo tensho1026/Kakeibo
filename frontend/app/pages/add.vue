@@ -54,22 +54,34 @@ const user = useUser();
 console.log(user.value, "user情報");
 
 const handleSubmit = async () => {
-  const res = await fetch("http://localhost:3001/transaction", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      type: form.type,
-      date: form.date,
-      amount: form.amount,
-      category: form.category,
-      paymentMethod: form.method,
-      memo: form.memo,
-      userId: user.value?.id,
-    }),
-  });
-  console.log(form, "送信データ");
+  try {
+    const response = await fetch("http://localhost:3001/transactions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        type: form.type,
+        date: form.date,
+        amount: form.amount,
+        category: form.category,
+        paymentMethod: form.method,
+        memo: form.memo,
+        userId: user.value?.id,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("取引登録に失敗しました", response.status, errorText);
+      return;
+    }
+
+    const data = await response.json();
+    console.log("取引を登録しました", data);
+  } catch (error) {
+    console.error("取引登録リクエストでエラーが発生しました", error);
+  }
 };
 </script>
 <template>
