@@ -6,6 +6,8 @@ import { UserModule } from './modules/user/user.module';
 import { Test } from './entities/test.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { MeModule } from './modules/me/me.module';
+import { Transaction } from './entities/transaction.entity';
+import { Category } from './entities/category.entity';
 
 @Module({
   controllers: [AppController],
@@ -17,7 +19,7 @@ import { MeModule } from './modules/me/me.module';
       username: process.env.DB_USER,
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
-      entities: [User, Test],
+      entities: [User, Test, Transaction, Category],
       synchronize: true, // 開発中のみ
     }),
     UserModule,
