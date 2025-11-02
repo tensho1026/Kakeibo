@@ -33,6 +33,9 @@ export class Transaction {
   @Column({ type: 'enum', enum: PaymentType, nullable: true })
   paymentMethod?: PaymentType;
 
+  @Column({ type: 'text', nullable: true })
+  memo?: string;
+
   @ManyToOne(() => User, (user) => user.transactions)
   user: User;
 }
