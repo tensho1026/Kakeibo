@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { MeModule } from './modules/me/me.module';
 import { Transaction } from './entities/transaction.entity';
 import { Category } from './entities/category.entity';
+import { TransactionModule } from './modules/transaction/transaction.module';
 
 @Module({
   controllers: [AppController],
@@ -25,6 +26,7 @@ import { Category } from './entities/category.entity';
     UserModule,
     AuthModule,
     MeModule,
+    TransactionModule,
   ],
 })
 export class AppModule {}
