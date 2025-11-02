@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive } from "vue";
+import { useUser } from "~/lib/useUser";
 
 const transactionTypes = [
   {
@@ -36,15 +37,6 @@ const paymentMethods = [
   { value: "bank", label: "口座振替", icon: "🏦" },
 ] as const;
 
-const frequentTags = [
-  "定期支払",
-  "サブスク",
-  "家族",
-  "仕事",
-  "特別費",
-  "医療費",
-] as const;
-
 const form = reactive({
   type: "expense",
   date: "",
@@ -52,13 +44,32 @@ const form = reactive({
   amount: "",
   method: "cash",
   memo: "",
-  recurring: false,
-  tags: [] as string[],
 });
 
 const availableCategories = computed(
   () => categoryMap[form.type as keyof typeof categoryMap]
 );
+
+const user = useUser();
+console.log(user,'user情報');
+
+const handleSubmit = async () => {
+  const res = await fetch("http://localhost:3001/saveTransaction", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      type: form.type,
+      date: form.date,
+      amount: form.amount,
+      category: form.category,
+      paymentMethod: form.method,
+      memo: form.memo,
+      userId: 1,
+    }),
+  });
+};
 </script>
 <template>
   <div class="min-h-screen bg-slate-100 py-10">
@@ -171,7 +182,7 @@ const availableCategories = computed(
                 <label
                   v-for="method in paymentMethods"
                   :key="method.value"
-                  class="flex items-center justify-between rounded-xl border px-3 py-2 text-sm shadow-sm transition"
+                  class="flex items-center justify-between rounded-xl border px-3 py-2 text-sm shadow-sm transition cursor-pointer"
                   :class="
                     form.method === method.value
                       ? 'border-indigo-400 bg-indigo-50 text-indigo-600'
@@ -182,7 +193,13 @@ const availableCategories = computed(
                     <span class="text-lg">{{ method.icon }}</span>
                     <span class="font-medium">{{ method.label }}</span>
                   </div>
-                  <input type="radio" class="hidden" />
+
+                  <input
+                    type="radio"
+                    v-model="form.method"
+                    :value="method.value"
+                    class="hidden"
+                  />
                 </label>
               </div>
             </label>
@@ -202,6 +219,7 @@ const availableCategories = computed(
             >
               メモ
               <textarea
+                v-model="form.memo"
                 rows="3"
                 placeholder="支出の内容や気づきをメモしておきましょう。"
                 class="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-100"

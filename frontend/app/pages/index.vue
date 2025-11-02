@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useUser } from "~/lib/useUser";
+
+const user = useUser();
 onMounted(() => {
   async function fetchMe() {
     const token = localStorage.getItem("token");
@@ -12,8 +15,8 @@ onMounted(() => {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
-        const data = await res.json();
-        console.log(data, "/me叩いて返ってきてるか＝＝＝＝＝");
+        user.value = await res.json();
+        console.log(user.value, "/me叩いて返ってきてるか＝＝＝＝＝");
       }
     } catch (err) {
       console.error("通信エラー:", err);
