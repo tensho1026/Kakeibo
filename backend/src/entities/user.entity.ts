@@ -25,7 +25,6 @@ export class User {
   })
   updatedAt: Date;
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   @OneToMany(() => Transaction, (transaction) => transaction.user)
   transactions: Transaction[];
 }
